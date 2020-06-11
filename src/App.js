@@ -1,24 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
+import SQLEditor from "./components/SQLEditor";
+import "./App.css";
+import schema from "assets/exampleSchema.json"
 
 function App() {
+  const doNothingHandler = () => {
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Switch>
+          <Route path="/">
+            <SQLEditor
+              className="SQLEditor"
+              schema={schema.schema}
+              autocompleteEnabled={true}
+              onChange={doNothingHandler}
+              onSelectionChange={doNothingHandler} />
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 }

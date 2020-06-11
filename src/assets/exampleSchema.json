@@ -1,0 +1,23 @@
+{
+  "schema": [
+    {
+      "name": "table_users",
+      "columns": [
+        "column_id",
+        "column_username",
+        "column_email",
+        "column_address"
+      ]
+    },
+    {
+      "name": "table_accesslog",
+      "columns": [
+        "column_id",
+        "column_user_id",
+        "column_user_agent",
+        "column_ip_address",
+        "column_access_time"
+      ]
+    }
+  ]
+}
