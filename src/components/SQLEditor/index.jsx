@@ -1,7 +1,7 @@
-import React, {useState, useEffect, forwardRef, useCallback, useMemo, useImperativeHandle} from "react";
+import React, {useState, useEffect, forwardRef, useCallback, useMemo, useImperativeHandle, useLayoutEffect} from "react";
 import cx from "classnames";
-import resizeObserver from "./resizeObserver";
 import {AceEditor, updateSchemaCompleter} from "./ace";
+import useResizeObserver from '@react-hook/resize-observer'
 import "./index.less"
 
 const editorProps = {$blockScrolling: Infinity};
@@ -49,19 +49,19 @@ const SQLEditor = forwardRef(function (
     }
   }, [schema, editorRef]);
 
-  useEffect(() => {
-    function resize() {
-      if (editorRef) {
-        editorRef.editor.resize();
-      }
+  useLayoutEffect(() => {
+    const resize = () => {
+      editorRef && editorRef.editor.resize();
     }
-
     if (container) {
       resize();
-      const unwatch = resizeObserver(container, resize);
-      return unwatch;
+      const ro = useResizeObserver(container, resize);
+      return () => {
+        ro.disconnect();
+      };
     }
-  }, [container, editorRef]);
+  }, [container, editorRef])
+
 
   const handleSelectionChange = useCallback(
     selection => {
