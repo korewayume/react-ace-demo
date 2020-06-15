@@ -1,7 +1,6 @@
-import React, {useState, useEffect, forwardRef, useCallback, useMemo, useImperativeHandle, useLayoutEffect} from "react";
+import React, {useState, useEffect, forwardRef, useCallback, useMemo, useImperativeHandle} from "react";
 import cx from "classnames";
 import {AceEditor, updateSchemaCompleter} from "./ace";
-import useResizeObserver from '@react-hook/resize-observer'
 import "./index.less"
 
 const editorProps = {$blockScrolling: Infinity};
@@ -10,7 +9,6 @@ const SQLEditor = forwardRef(function (
   {className, syntax, value, autocompleteEnabled, schema, onChange, onSelectionChange, ...props},
   ref
 ) {
-  const [container, setContainer] = useState(null);
   const [editorRef, setEditorRef] = useState(null);
 
   // For some reason, value for AceEditor should be managed in this way - otherwise it goes berserk when selecting text
@@ -48,20 +46,6 @@ const SQLEditor = forwardRef(function (
       };
     }
   }, [schema, editorRef]);
-
-  useLayoutEffect(() => {
-    const resize = () => {
-      editorRef && editorRef.editor.resize();
-    }
-    if (container) {
-      resize();
-      const ro = useResizeObserver(container, resize);
-      return () => {
-        ro.disconnect();
-      };
-    }
-  }, [container, editorRef])
-
 
   const handleSelectionChange = useCallback(
     selection => {
@@ -128,7 +112,7 @@ const SQLEditor = forwardRef(function (
   );
 
   return (
-    <div className={cx("sql-editor-container", className)} {...props} ref={setContainer}>
+    <div className={cx("sql-editor-container", className)} {...props}>
       <AceEditor
         ref={setEditorRef}
         theme="textmate"
