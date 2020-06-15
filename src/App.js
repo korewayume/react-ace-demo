@@ -1,20 +1,11 @@
 import React from "react";
-import SQLEditor from "./components/SQLEditor";
 import "./App.css";
-import schema from "assets/exampleSchema.json"
+import IndexPage from "pages/index"
 
 function App() {
-  const doNothingHandler = () => {
-  }
-
   return (
     <div className="App">
-      <SQLEditor
-        className="SQLEditor"
-        schema={schema.schema}
-        autocompleteEnabled={true}
-        onChange={doNothingHandler}
-        onSelectionChange={doNothingHandler} />
+      <IndexPage />
     </div>
   );
 }
